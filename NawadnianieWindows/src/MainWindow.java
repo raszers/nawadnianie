@@ -1,22 +1,13 @@
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-
-import com.sun.jdi.event.Event;
 
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.layout.GridData;
 import swing2swt.layout.BoxLayout;
 
@@ -26,7 +17,6 @@ public class MainWindow {
 	protected Shell shell;
 	boolean val = true;
 	private final int MANUAL = 2, AUTO = 1, SEQUENCE = 3;
-	private boolean manualState = false, autoState = false, sequenceState = false;
 	private Label relArr[];
 	private Label rel_0;
 	private Label rel_1;
@@ -69,7 +59,6 @@ public class MainWindow {
 	
 	public void main(String[] args) {
 		try {
-			//MainWindow window = new MainWindow();
 			open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -288,7 +277,7 @@ public class MainWindow {
 		
 	}
 	
-	private void setManualMode(boolean state) {
+	public void setManualMode(boolean state) {
 
 		if (state){
 			btnManual.setImage(SWTResourceManager.getImage(MainWindow.class, "/com/test/icon/manual_on.png"));
@@ -300,7 +289,7 @@ public class MainWindow {
 		}
 	}
 	
-	private void setAutoMode(boolean state) {
+	public void setAutoMode(boolean state) {
 		if (state){
 			btnAuto.setImage(SWTResourceManager.getImage(MainWindow.class, "/com/test/icon/auto_mode_on.png"));
 			setManualMode(false);
@@ -311,7 +300,7 @@ public class MainWindow {
 		}
 	}
 	
-	private void setSequenceMode(boolean state) {
+	public void setSequenceMode(boolean state) {
 		if (state){
 			btnSequence.setImage(SWTResourceManager.getImage(MainWindow.class, "/com/test/icon/sequence_on.png"));
 			setAutoMode(false);
@@ -322,7 +311,7 @@ public class MainWindow {
 		}
 	}
 	
-	private void setSkipNext(boolean state) {
+	public void setSkipNext(boolean state) {
 		if (state){
 			btnSkip.setImage(SWTResourceManager.getImage(MainWindow.class, "/com/test/icon/skip_next_on.png"));
 		}
@@ -331,7 +320,7 @@ public class MainWindow {
 		}
 	}
 	
-	private void setDailyDone(boolean state) {
+	public void setDailyDone(boolean state) {
 		if (state){
 			btnDailyDone.setImage(SWTResourceManager.getImage(MainWindow.class, "/com/test/icon/daily_done_on.png"));
 		}

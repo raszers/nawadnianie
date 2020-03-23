@@ -8,14 +8,14 @@ public class Heartbeat extends Thread {
 		try {
 			while(true) {
 				this.wait(2500);
-//				MainThread.networkThread.send("0000");
+				MainThread.networkThread.sendBeat();
 				if (stop) break;
 			}
 		}
 		catch (Exception e)
 		{
-			System.out.println(e);
-			System.out.println("Brak po³¹czenia");
+			System.err.println(e);
+			System.err.println("Brak po³¹czenia");
 		}
 		}
 	}
