@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 
 import org.eclipse.swt.widgets.Display;
@@ -41,21 +45,25 @@ public class Controller{
 	
     public void updateSoftSettings(byte state[]) {
     	CurrentState.getInstance().setMode(state);
+   	 updateStateFile();
     	updateWindow();
       }
      
      public void updateConnection(boolean state) {
     	 CurrentState.getInstance().setConnection(state);
+    	 updateStateFile();
     	 updateWindow();
       }
      
      public void updateRelay(byte state[]) {
     	 CurrentState.getInstance().setRelay(state);
+    	 updateStateFile();
     	 updateWindow();
      }
      
      public void updateRelay(boolean state) {
     	 MainWindow.getInstance().setRelay(state);   
+    	 updateStateFile();
      }
      
      public void updateList(String string) {
@@ -79,5 +87,24 @@ public class Controller{
    		            });
    		         }
    		   }).start();
+     }
+     
+     public void updateStateFile(){
+    	 System.out.println("dzieje sie");
+    	 CurrentState cState = CurrentState.getInstance();
+    	 File file = new File("stan.txt");
+		 try(
+		 PrintWriter pWriter = new PrintWriter(new FileWriter(file, false));
+				 ){
+			 file.createNewFile();
+	    	 pWriter.println("//relay");
+	    	 pWriter.println(cState.getRelayString());
+	    	 pWriter.println("//mode");
+	    	 pWriter.println(cState.getModeString());
+			 
+		 }catch(IOException e) {
+			 System.out.println(e.getStackTrace());
+			 System.err.println(e);
+		 }
      }
 }

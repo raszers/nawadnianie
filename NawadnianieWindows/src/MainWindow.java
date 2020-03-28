@@ -81,6 +81,7 @@ public class MainWindow {
 				display.sleep();
 			}
 		}
+		System.exit(0);
 	}
 
 	/**
@@ -237,6 +238,7 @@ public class MainWindow {
 			btnDailyDone.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 			btnDailyDone.setImage(SWTResourceManager.getImage(MainWindow.class, "/com/test/icon/daily_done_off.png"));
 		}
+		
 	}
 	
 	public void setConnection(boolean state) {

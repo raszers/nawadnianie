@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class CurrentState {
 	private static CurrentState instance = new CurrentState();
@@ -13,14 +17,33 @@ public class CurrentState {
 		relay = new byte[4];
 		sequence = new byte[8];
 		
-		//testing
-//		mode[0] = 1;
-//		mode[1] = 0;
-//		mode[2] = 1;
-//		relay[0] = 0;
-//		relay[1] = 0;
-//		relay[2] = 1;
-//		relay[3] = 0;
+		File file = new File("stan.txt");
+		
+		try(
+				BufferedReader br = new BufferedReader(new FileReader(file));
+				){
+			String currentLine = new String();
+			while((currentLine = br.readLine())!=null && currentLine.length()!=0) {
+				if(!currentLine.startsWith("//")) {
+					byte[] tmp = currentLine.getBytes();
+					for(int i = 0; i < tmp.length; i++) {
+						tmp[i] -= 48;
+					}
+					switch(tmp.length) {
+					case(3):
+						mode = tmp;
+						break;
+					case(4):
+						relay = tmp;
+						break;
+					}
+				}
+			}
+			
+		}catch (IOException e) {
+			System.out.println(e.getStackTrace());
+			System.err.println(e);
+		}
 	}
 	
 	public static CurrentState getInstance() {
@@ -30,6 +53,16 @@ public class CurrentState {
 	public byte[] getMode() {
 		return mode;
 	}
+	
+	public String getModeString() {
+		StringBuilder returnValue = new StringBuilder();
+		for(byte b : mode) {
+			int i = b;
+			returnValue.append(i);
+		}
+		System.out.println(returnValue.toString());
+		return returnValue.toString();
+	}
 
 	public void setMode(byte[] mode) {
 		this.mode = mode;
@@ -37,6 +70,16 @@ public class CurrentState {
 
 	public byte[] getRelay() {
 		return relay;
+	}
+	
+	public String getRelayString() {
+		StringBuilder returnValue = new StringBuilder();
+		for(byte b : relay) {
+			int i = b;
+			returnValue.append(i);
+		}
+		System.out.println(returnValue.toString());
+		return returnValue.toString();
 	}
 
 	public void setRelay(byte[] relay) {

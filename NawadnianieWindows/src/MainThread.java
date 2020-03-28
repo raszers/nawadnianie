@@ -9,15 +9,14 @@ public class MainThread {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+
+		CurrentState.getInstance();
 		networkThread = new NetworkManager();
 		gui = new GuiThread();
 		Thread guiThread = new Thread(gui);
 		guiThread.start();
-		
 		//guiThread
-
-		System.out.println("poszlo");
+		
 		while(a<b) {
 			if(!networkThread.isAlive()) {
 				a++;

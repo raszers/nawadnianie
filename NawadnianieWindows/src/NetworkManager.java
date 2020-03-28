@@ -48,34 +48,45 @@ public class NetworkManager extends Thread {
 	        } 
 	    } 
     
-    public void start(int port) throws IOException {
+    public void start(int port){
     	
     	controller = new Controller();
-        serverSocket = new ServerSocket();
-        String ip  = InetAddress.getLocalHost().getHostAddress();
-        endPoint = new InetSocketAddress(ip, port);
-        serverSocket.bind(endPoint);
-        clientSocket = serverSocket.accept();
-        CurrentState.getInstance().setConnection(true);
-        System.out.println("Po³¹czono");
-        controller.updateWindow();
-        //
-        out = clientSocket.getOutputStream();
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        //
-        heartbeat = new Heartbeat();
-        heartbeat.start();
-        while(true){ //Echo
-	        inputLine = in.readLine();
+        try{
+    		serverSocket = new ServerSocket();
+            String ip  = InetAddress.getLocalHost().getHostAddress();
+            endPoint = new InetSocketAddress(ip, port);
+            System.out.println(ip + " " + port);
+            System.out.println(endPoint.getAddress());
+            serverSocket.bind(endPoint);
+            Thread.sleep(500);
+            controller.updateWindow();
+            clientSocket = serverSocket.accept();
+            CurrentState.getInstance().setConnection(true);
+            //
+            out = clientSocket.getOutputStream();
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            //
+            heartbeat = new Heartbeat();
+            heartbeat.start();
+            while(true){ //Echo
+    	        inputLine = in.readLine();
 
-	        controller.handleMsg(inputLine);
-	        sendState();
-	        
-	        if(inputLine.equals("end")) {
-	        	this.terminate();
-	        	this.stopHearbeat();
-	        	break;
-	        }
+    	        controller.handleMsg(inputLine);
+    	        sendState();
+    	        
+    	        if(inputLine.equals("end")) {
+    	        	this.terminate();
+    	        	this.stopHearbeat();
+    	        	break;
+    	        }
+            }
+        	
+        }catch(IOException e) {
+        	System.out.println(e.getStackTrace());
+        	System.err.println(e);
+        }catch(InterruptedException e) {
+        	System.out.println(e.getStackTrace());
+        	System.err.println(e);
         }
     }
     
